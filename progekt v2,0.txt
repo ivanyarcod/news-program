@@ -1,0 +1,441 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+struct News {
+    string title;
+    string content;
+    string category;
+};
+
+struct CategoryCount {
+    string categoryName;
+    int count;
+};
+
+vector<News> allNews;
+
+void initializeNews(){
+    allNews.push_back({"Парламент прийняв новий закон про освіту", "Верховна Рада схвалила законопроект про реформування системи освіти. Зміни торкнуться всіх рівнів навчання.", "Політика"});
+    allNews.push_back({"Президент підписав указ про економічний розвиток", "Новий указ спрямований на підтримку малого та середнього бізнесу в регіонах.", "Політика"});
+    allNews.push_back({"Міністри обговорили питання екології", "На засіданні Кабінету Міністрів розглянули стратегію захисту довкілля на наступні п'ять років.", "Політика"});
+    
+    allNews.push_back({"Національна збірна перемогла у важливому матчі", "Футбольна команда здобула перемогу з рахунком 3:1 у відбірковому турі чемпіонату.", "Спорт"});
+    allNews.push_back({"Відкрито новий спортивний комплекс", "У столиці урочисто відкрили сучасний багатофункціональний спортивний центр для молоді.", "Спорт"});
+    allNews.push_back({"Українська тенісистка вийшла у фінал турніру", "Спортсменка продемонструвала бездоганну гру та здобула путівку до фінального матчу.", "Спорт"});
+    
+    allNews.push_back({"Запущено нову платформу для онлайн-навчання", "IT-компанія презентувала інноваційний освітній сервіс з використанням штучного інтелекту.", "Технології"});
+    allNews.push_back({"Розробники створили додаток для екології", "Український стартап випустив мобільний застосунок для моніторингу якості повітря.", "Технології"});
+    allNews.push_back({"Впроваджено 5G зв'язок у великих містах", "Оператори мобільного зв'язку розпочали тестування мереж п'ятого покоління.", "Технології"});
+    
+    allNews.push_back({"Зростання ВВП перевищило прогнози", "Економіка країни показала позитивну динаміку у третьому кварталі року.", "Економіка"});
+    allNews.push_back({"Відкрито новий завод з виробництва електроніки", "Іноземна компанія інвестувала 50 мільйонів доларів у будівництво підприємства.", "Економіка"});
+    allNews.push_back({"Національний банк знизив облікову ставку", "Рішення спрямоване на стимулювання кредитування та економічного зростання.", "Економіка"});
+    
+    allNews.push_back({"Відкрилася виставка сучасного мистецтва", "У національній галереї представлені роботи понад 50 українських художників.", "Культура"});
+    allNews.push_back({"Український фільм отримав міжнародну нагороду", "Стрічка вітчизняного режисера перемогла на престижному кінофестивалі.", "Культура"});
+    allNews.push_back({"Стартував музичний фестиваль у Києві", "Триденний захід об'єднає виконавців різних жанрів з усієї країни.", "Культура"});
+    
+    allNews.push_back({"Науковці зробили прорив у медицині", "Дослідники розробили новий метод лікування серцево-судинних захворювань.", "Наука"});
+    allNews.push_back({"Відкрито нову лабораторію квантових технологій", "Центр проводитиме фундаментальні дослідження у галузі квантової фізики.", "Наука"});
+    allNews.push_back({"Українські вчені взяли участь у космічній місії", "Експерти долучилися до міжнародного проекту з вивчення Марса.", "Наука"});
+}
+
+void menu(){
+    cout<<"┌─────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
+    cout<<"│  ███╗   ██╗███████╗██╗    ██╗    ██████╗ ██████╗  ██████╗  ██████╗ ██████╗  █████╗ ███╗   ███╗  │\n";
+    cout<<"│  ████╗  ██║██╔════╝██║    ██║    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝ ██╔══██╗██╔══██╗████╗ ████║  │\n";
+    cout<<"│  ██╔██╗ ██║█████╗  ██║ █╗ ██║    ██████╔╝██████╔╝██║   ██║██║  ███╗██████╔╝███████║██╔████╔██║  │\n";
+    cout<<"│  ██║╚██╗██║██╔══╝  ██║███╗██║    ██╔═══╝ ██╔══██╗██║   ██║██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║  │\n";
+cout<<"│  ██║ ╚████║███████╗╚███╔███╔╝    ██║     ██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║  │\n";
+    cout<<"│  ╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝     ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  │\n";
+    cout<<"│                                         help-for all comands                                    │\n";
+    cout<<"└─────────────────────────────────────────────────────────────────────────────────────────────────┘\n";
+}
+
+void kategorias(){
+    cout<<"\n╔═══════════════════════════════════════╗\n";
+    cout<<"║            КАТЕГОРІЇ НОВИН            ║\n";
+    cout<<"╠═══════════════════════════════════════╣\n";
+    cout<<"║ polityka- Політика                    ║\n";
+    cout<<"║ sport- Спорт                          ║\n";
+    cout<<"║ tech- Технології                      ║\n";
+    cout<<"║ ekonomika- Економіка                  ║\n";
+    cout<<"║ kultura- Культура                     ║\n";
+    cout<<"║ nauka- Наука                          ║\n";
+    cout<<"╚═══════════════════════════════════════╝\n\n";
+}
+
+void newest(){
+    if(allNews.empty()){
+        cout<<"Новин немає\n\n";
+        return;
+    }
+    
+    cout<<"\nВСІ НОВИНИ:\n";
+    cout<<"===========\n";
+    
+    for(int i = 0; i < allNews.size(); i++){
+        cout<<i+1<<". ["<<allNews[i].category<<"] "<<allNews[i].title<<"\n";
+        cout<<"   "<<allNews[i].content<<"\n";
+        cout<<"   ----------------\n";
+    }
+    cout<<"\n";
+}
+
+void showByCategory(string categoryName){
+    if(allNews.empty()){
+        cout<<"Новин немає\n\n";
+        return;
+    }
+    
+    bool found = false;
+    cout<<"\nНОВИНИ КАТЕГОРІЇ "<<categoryName<<":\n";
+    cout<<"===================\n";
+    
+    for(int i = 0; i < allNews.size(); i++){
+        if(allNews[i].category == categoryName){
+            cout<<i+1<<". "<<allNews[i].title<<"\n";
+            cout<<"   "<<allNews[i].content<<"\n";
+            cout<<"   ----------------\n";
+            found = true;
+        }
+    }
+    
+    if(!found){
+        cout<<"Новин у цій категорії немає\n";
+    }
+    cout<<"\n";
+}
+
+void polityka(){
+    showByCategory("Політика");
+}
+
+void sport(){
+    showByCategory("Спорт");
+}
+
+void tech(){
+    showByCategory("Технології");
+}
+
+void ekonomika(){
+    showByCategory("Економіка");
+}
+
+void kultura(){
+    showByCategory("Культура");
+}
+
+void nauka(){
+    showByCategory("Наука");
+}
+
+void add(){
+    News newNews;
+    
+    cout<<"\n╔═════════════════════════════════════════╗\n";
+    cout<<"║         ДОДАВАННЯ НОВОЇ НОВИНИ          ║\n";
+    cout<<"╚═════════════════════════════════════════╝\n\n";
+    
+    cin.ignore();
+    
+    cout<<"Введіть заголовок новини: ";
+    getline(cin, newNews.title);
+    
+    if(newNews.title.empty()){
+        cout<<"Помилка: заголовок не може бути порожнім!\n\n";
+        return;
+    }
+    
+    cout<<"Введіть текст новини: ";
+    getline(cin, newNews.content);
+    
+    if(newNews.content.empty()){
+        cout<<"Помилка: текст новини не може бути порожнім!\n\n";
+        return;
+    }
+    
+    cout<<"\n╔═══════════════════════════════════════╗\n";
+    cout<<"║       Оберіть категорію новини:      ║\n";
+    cout<<"╠═══════════════════════════════════════╣\n";
+    cout<<"║ 1 - Політика                          ║\n";
+    cout<<"║ 2 - Спорт                             ║\n";
+    cout<<"║ 3 - Технології                        ║\n";
+    cout<<"║ 4 - Економіка                         ║\n";
+    cout<<"║ 5 - Культура                          ║\n";
+    cout<<"║ 6 - Наука                             ║\n";
+    cout<<"╚═══════════════════════════════════════╝\n";
+    cout<<"Введіть номер категорії (1-6): ";
+    
+    int categoryNum;
+    cin >> categoryNum;
+    
+    switch(categoryNum){
+        case 1: newNews.category = "Політика"; break;
+        case 2: newNews.category = "Спорт"; break;
+case 3: newNews.category = "Технології"; break;
+        case 4: newNews.category = "Економіка"; break;
+        case 5: newNews.category = "Культура"; break;
+        case 6: newNews.category = "Наука"; break;
+        default:
+            newNews.category = "Різне";
+            cout<<"\n⚠ Невірний номер, встановлено категорію 'Різне'\n";
+    }
+    
+    allNews.push_back(newNews);
+    
+    cout<<"\n╔═════════════════════════════════════════╗\n";
+    cout<<"║          ✓ НОВИНУ ДОДАНО!               ║\n";
+    cout<<"╠═════════════════════════════════════════╣\n";
+    cout<<"║ Заголовок: "<<newNews.title;
+    int spaces = 26 - newNews.title.length();
+    if(spaces > 0) for(int i = 0; i < spaces; i++) cout<<" ";
+    cout<<"\n";
+    cout<<"║ Категорія: "<<newNews.category;
+    spaces = 26 - newNews.category.length();
+    if(spaces > 0) for(int i = 0; i < spaces; i++) cout<<" ";
+    cout<<"\n";
+    cout<<"╚═════════════════════════════════════════╝\n\n";
+}
+
+void search(){
+    if(allNews.empty()){
+        cout<<"Новин немає для пошуку\n\n";
+        return;
+    }
+    
+    cin.ignore();
+    string searchWord;
+    cout<<"Введіть слово для пошуку в заголовках: ";
+    getline(cin, searchWord);
+    
+    bool found = false;
+    cout<<"\nРезультати пошуку:\n";
+    cout<<"==================\n";
+    
+    for(int i = 0; i < allNews.size(); i++){
+        if(allNews[i].title.find(searchWord) != string::npos){
+            cout<<i+1<<". "<<allNews[i].title<<"\n";
+            cout<<"   "<<allNews[i].content<<"\n";
+            cout<<"   ----------------\n";
+            found = true;
+        }
+    }
+    
+    if(!found){
+        cout<<"Новин з цим словом не знайдено\n";
+    }
+    cout<<"\n";
+}
+
+void deleteNews(){
+    if(allNews.empty()){
+        cout<<"Новин немає для видалення\n\n";
+        return;
+    }
+    
+    cout<<"\nСПИСОК НОВИН ДЛЯ ВИДАЛЕННЯ:\n";
+    cout<<"===========================\n";
+    
+    for(int i = 0; i < allNews.size(); i++){
+        cout<<i+1<<". ["<<allNews[i].category<<"] "<<allNews[i].title<<"\n";
+    }
+    
+    cout<<"\nВведіть номер новини для видалення (0 для скасування): ";
+    int newsNum;
+    cin >> newsNum;
+    
+    if(newsNum == 0){
+        cout<<"Видалення скасовано\n\n";
+        return;
+    }
+    
+    if(newsNum < 1 || newsNum > allNews.size()){
+        cout<<"Невірний номер новини\n\n";
+        return;
+    }
+    
+    cout<<"\nВи збираєтеся видалити:\n";
+    cout<<"Заголовок: "<<allNews[newsNum-1].title<<"\n";
+    cout<<"Категорія: "<<allNews[newsNum-1].category<<"\n";
+    
+    cout<<"\nВи впевнені? (y/n): ";
+    char confirm;
+    cin >> confirm;
+    
+    if(confirm == 'y' || confirm == 'Y'){
+        string deletedTitle = allNews[newsNum-1].title;
+        allNews.erase(allNews.begin() + newsNum - 1);
+        cout<<"Новину '"<<deletedTitle<<"' видалено!\n\n";
+    } else {
+        cout<<"Видалення скасовано\n\n";
+    }
+}
+
+void sortCategoriesByCount(vector<CategoryCount>& categories){
+    for(int i = 0; i < categories.size() - 1; i++){
+        for(int j = 0; j < categories.size() - 1 - i; j++){
+            if(categories[j].count < categories[j + 1].count){
+                CategoryCount temp = categories[j];
+                categories[j] = categories[j + 1];
+                categories[j + 1] = temp;
+            }
+        }
+    }
+}
+
+string intToString(int number){
+    if(number == 0) return "0";
+    
+    string result = "";
+    bool isNegative = false;
+    
+    if(number < 0){
+        isNegative = true;
+        number = -number;
+    }
+    
+    while(number > 0){
+        int digit = number % 10;
+        result = char('0' + digit) + result;
+        number /= 10;
+    }
+    
+    if(isNegative){
+        result = "-" + result;
+    }
+    
+    return result;
+}
+
+void topCategories(){
+    if(allNews.empty()){
+        cout<<"Новин немає для аналізу\n\n";
+return;
+    }
+    
+    vector<CategoryCount> categoryCount;
+    
+    for(int i = 0; i < allNews.size(); i++){
+        bool found = false;
+        
+        for(int j = 0; j < categoryCount.size(); j++){
+            if(categoryCount[j].categoryName == allNews[i].category){
+                categoryCount[j].count++;
+                found = true;
+                break;
+            }
+        }
+        
+        if(!found){
+            CategoryCount newCategory;
+            newCategory.categoryName = allNews[i].category;
+            newCategory.count = 1;
+            categoryCount.push_back(newCategory);
+        }
+    }
+    
+    sortCategoriesByCount(categoryCount);
+    
+    cout<<"\n╔═══════════════════════════════════════════╗\n";
+    cout<<"║        ТОП КАТЕГОРІЙ ЗА КІЛЬКІСТЮ         ║\n";
+    cout<<"╠════════════════════════════════════════════╣\n";
+    
+    for(int i = 0; i < categoryCount.size(); i++){
+        cout<<"║ "<<i+1<<". "<<categoryCount[i].categoryName;
+        
+        int spaces = 25 - categoryCount[i].categoryName.length();
+        for(int j = 0; j < spaces; j++) cout<<" ";
+        
+        cout<<"- "<<categoryCount[i].count;
+        
+        if(categoryCount[i].count == 1) cout<<" новина";
+        else if(categoryCount[i].count < 5) cout<<" новини";
+        else cout<<" новин";
+        
+        string countStr = intToString(categoryCount[i].count);
+        int remaining = 37 - (25 + countStr.length() + 
+                             (categoryCount[i].count == 1 ? 7 :
+                              categoryCount[i].count < 5 ? 7 : 6));
+        for(int j = 0; j < remaining; j++) cout<<" ";
+        cout<<" \n";
+    }
+    
+    cout<<"╠═══════════════════════════════════════════╣\n";
+    cout<<"║ Загальна кількість новин: "<<allNews.size();
+    string totalStr = intToString(allNews.size());
+    int totalSpaces = 15 - totalStr.length();
+    for(int i = 0; i < totalSpaces; i++) cout<<" ";
+    cout<<" ║\n";
+    cout<<"╚═══════════════════════════════════════════╝\n\n";
+}
+
+void help(){
+    cout<<"\n╔═══════════════════════════════════════════════════════════════╗\n";
+    cout<<"║                         ДОВІДКА                               ║\n";
+    cout<<"╠═══════════════════════════════════════════════════════════════╣\n";
+    cout<<"║ menu- Виводить головне миню                                   ║\n";
+    cout<<"║ kategorias- категорії новин                                   ║\n";
+    cout<<"║ newest- найновіші новини                                      ║\n";
+    cout<<"║ add- додати новину                                            ║\n";
+    cout<<"║ delete- видалити новину                                       ║\n";
+    cout<<"║ search- пошук новин за словом в заголовку                     ║\n";
+    cout<<"║ top- топ категорій за кількістю новин                         ║\n";
+    cout<<"║ polityka- новини політики                                     ║\n";
+    cout<<"║ sport- спортивні новини                                       ║\n";
+    cout<<"║ tech- новини технологій                                       ║\n";
+    cout<<"║ ekonomika- економічні новини                                  ║\n";
+    cout<<"║ kultura- культурні новини                                     ║\n";
+    cout<<"║ nauka- наукові новини                                         ║\n";
+    cout<<"║ help- виводить всі команди                                    ║\n";
+    cout<<"║ exit- вихід з програми                                        ║\n";
+    cout<<"╚═══════════════════════════════════════════════════════════════╝\n\n";
+}
+
+int main(){
+    initializeNews();
+    
+    cout<<"┌─────────────────────────────────────────────────────────────────────────────────────────────────┐\n";
+    cout<<"│  ███╗   ██╗███████╗██╗    ██╗    ██████╗ ██████╗  ██████╗  ██████╗ ██████╗  █████╗ ███╗   ███╗  │\n";
+cout<<"│  ████╗  ██║██╔════╝██║    ██║    ██╔══██╗██╔══██╗██╔═══██╗██╔════╝ ██╔══██╗██╔══██╗████╗ ████║  │\n";
+    cout<<"│  ██╔██╗ ██║█████╗  ██║ █╗ ██║    ██████╔╝██████╔╝██║   ██║██║  ███╗██████╔╝███████║██╔████╔██║  │\n";
+    cout<<"│  ██║╚██╗██║██╔══╝  ██║███╗██║    ██╔═══╝ ██╔══██╗██║   ██║██║   ██║██╔══██╗██╔══██║██║╚██╔╝██║  │\n";
+    cout<<"│  ██║ ╚████║███████╗╚███╔███╔╝    ██║     ██║  ██║╚██████╔╝╚██████╔╝██║  ██║██║  ██║██║ ╚═╝ ██║  │\n";
+    cout<<"│  ╚═╝  ╚═══╝╚══════╝ ╚══╝╚══╝     ╚═╝     ╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝  │\n";
+    cout<<"│                                         help-for all comands                                    │\n";
+    cout<<"└─────────────────────────────────────────────────────────────────────────────────────────────────┘\n";
+
+    
+    while(true){
+        cout<<"news> ";
+        string a;
+        cin>>a;
+        
+        if(a=="menu") menu();
+        else if(a=="kategorias") kategorias();
+        else if(a=="newest") newest();
+        else if(a=="add") add();
+        else if(a=="delete") deleteNews();
+        else if(a=="polityka") polityka();
+        else if(a=="sport") sport();
+        else if(a=="tech") tech();
+        else if(a=="ekonomika") ekonomika();
+        else if(a=="kultura") kultura();
+        else if(a=="nauka") nauka();
+        else if(a=="search") search();
+        else if(a=="top") topCategories();
+        else if(a=="help") help();
+        else if(a=="exit") {
+            cout<<"До побачення!\n";
+            break;
+        }
+        else {
+            cout<<"Невідома команда. Введіть 'help' для довідки.\n\n";
+        }
+    }
+    
+    return 0;
+}
